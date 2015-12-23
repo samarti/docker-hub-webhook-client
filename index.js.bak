@@ -1,0 +1,29 @@
+
+var express = require('express');
+var spawn   = require('child_process').spawn;
+var app = express();
+var PORT = 8001;
+app.use(express.static(__dirname));
+
+app.post('/', function(req, res){
+  var command = spawn('bash',['dclean.sh']);
+  var output  = [];
+  console.log("Received");
+
+  command.stdout.on('data', function(chunk) {
+    output.push(chunk);
+    console.log(chunk);
+  });
+
+  command.on('close', function(code) {
+    if (code === 0){
+      res.send(Buffer.concat(output));
+      console.log(output.toString());
+    }
+    else {
+      res.send(500); // when the script fails, generate a Server Error HTTP response
+      console.log(code);
+    } 
+ });
+});
+app.listen(PORT);
