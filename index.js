@@ -28,7 +28,12 @@ app.post('/', function(req, res){
         return console.log(err);
     }
     });
-    fs.appendFile("/home/ubuntu/webhook.log", sterr, function(err) {
+    fs.appendFile("/home/ubuntu/webhook.log", stderr, function(err) {
+    if(err) {
+        return console.log(err);
+    }
+   });
+   fs.appendFile("/home/ubuntu/webhook.log", "FIN \n\n\n\n\n", function(err) {
     if(err) {
         return console.log(err);
     }
