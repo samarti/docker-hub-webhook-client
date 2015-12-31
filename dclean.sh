@@ -1,2 +1,2 @@
-cd /home/ubuntu/wemeep-deployment/meep-service
+cd /home/ubuntu/wemeep-deployment/session-service
 bash dclean.sh

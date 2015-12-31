@@ -13,6 +13,8 @@ app.get('/', function(req, res){
 });
 
 app.post('/', function(req, res){
+  var secret = req.get("X-Hub-Signature");
+  if (secret === "sha1=" + process.env.GITHUB_SECRET){
   exec(__dirname + '/dclean.sh',
   function (error, stdout, stderr) {
 
@@ -42,6 +44,8 @@ app.post('/', function(req, res){
      console.log('exec error: ' + error);
    }
    });
+	res.json({"Status":"received"});
+   } else res.json({"Status":"You piece of shit"});
 });
 
 app.listen(PORT);
