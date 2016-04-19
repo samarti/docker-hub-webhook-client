@@ -9,12 +9,15 @@ var sys = require('sys'),
     exec = require('child_process').exec;
 
 app.get('/', function(req, res){
-  res.send("Working!");
+ exec(__dirname + '/builddev.sh',
+  function (error, stdout, stderr) {
+
+   });
+  res.json({"Status":"Building dev"});
 });
 
 app.post('/', function(req, res){
   var secret = req.get("X-Hub-Signature");
-  if (secret === "sha1=" + process.env.GITHUB_SECRET){
   exec(__dirname + '/dclean.sh',
   function (error, stdout, stderr) {
 
@@ -42,10 +45,9 @@ app.post('/', function(req, res){
    });
    if (error !== null) {
      console.log('exec error: ' + error);
-   }
+	   }
    });
 	res.json({"Status":"received"});
-   } else res.json({"Status":"You piece of shit"});
 });
 
 app.listen(PORT);
